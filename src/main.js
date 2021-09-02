@@ -28,7 +28,7 @@ app.get('/history/:city', async (req, res) => {
 app.get('/:city', async (req, res) => {
   const city = await db.City.findOne({
     where: {
-      name: req.params['city'],
+      name: req.params['city'].toLowerCase(),
     },
   })
 

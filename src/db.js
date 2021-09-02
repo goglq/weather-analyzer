@@ -2,7 +2,14 @@ const Sequelize = require('sequelize')
 
 const CONNECTION_STR = process.env.DATABASE_URL
 
-const sequelize = new Sequelize(CONNECTION_STR)
+const sequelize = new Sequelize(CONNECTION_STR, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: true,
+    native: true,
+  },
+})
 
 const City = sequelize.define('cities', {
   name: Sequelize.STRING,
