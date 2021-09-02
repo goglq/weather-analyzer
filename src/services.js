@@ -24,7 +24,7 @@ async function getTemperature(db) {
   })
 }
 
-async function cleanWeather(db) {
+function cleanWeather(db) {
   db.Weather.destroy({
     where: {
       createdAt: {
