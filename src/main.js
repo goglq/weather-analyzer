@@ -9,37 +9,45 @@ const app = express()
 app.use(express.json())
 
 app.get('/history/:city', async (req, res) => {
-  const city = await db.City.findOne({
-    where: {
-      name: req.params['city'],
-    },
-  })
+  try {
+    const city = await db.City.findOne({
+      where: {
+        name: req.params['city'],
+      },
+    })
 
-  const weathers = await db.Weather.findAll({
-    where: {
-      cityId: city.id,
-    },
-    order: [['id', 'DESC']],
-  })
+    const weathers = await db.Weather.findAll({
+      where: {
+        cityId: city.id,
+      },
+      order: [['id', 'DESC']],
+    })
 
-  res.send(weathers)
+    res.send(weathers)
+  } catch (err) {
+    res.status(404).send({ message: 'error' })
+  }
 })
 
 app.get('/:city', async (req, res) => {
-  const city = await db.City.findOne({
-    where: {
-      name: req.params['city'].toLowerCase(),
-    },
-  })
+  try {
+    const city = await db.City.findOne({
+      where: {
+        name: req.params['city'].toLowerCase(),
+      },
+    })
 
-  const weather = await db.Weather.findOne({
-    where: {
-      cityId: city.id,
-    },
-    order: [['id', 'DESC']],
-  })
+    const weather = await db.Weather.findOne({
+      where: {
+        cityId: city.id,
+      },
+      order: [['id', 'DESC']],
+    })
 
-  res.send(weather)
+    res.send(weather)
+  } catch (err) {
+    res.status(404).send({ message: 'error' })
+  }
 })
 
 const addTemperatureJob = new cron(
