@@ -16,12 +16,20 @@ app.get('/history/:city', async (req, res) => {
       },
     })
 
+    if (city === undefined) {
+      throw new Error('wrong city')
+    }
+
     const weathers = await db.Weather.findAll({
       where: {
         cityId: city.id,
       },
       order: [['id', 'DESC']],
     })
+
+    if (weathers.length === 0) {
+      throw new Error('weathers is empty')
+    }
 
     res.send(weathers)
   } catch (err) {
@@ -37,12 +45,20 @@ app.get('/:city', async (req, res) => {
       },
     })
 
+    if (city === undefined) {
+      throw new Error('wrong city')
+    }
+
     const weather = await db.Weather.findOne({
       where: {
         cityId: city.id,
       },
       order: [['id', 'DESC']],
     })
+
+    if (weather === undefined) {
+      throw new Error('weather is undefined')
+    }
 
     res.send(weather)
   } catch (err) {
