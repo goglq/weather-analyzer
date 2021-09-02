@@ -9,7 +9,7 @@ async function getTemperature(db) {
     `https://api.openweathermap.org/data/2.5/weather?q=Moscow&units=metric&appid=${API_KEY}`
   )
   const json = await response.json()
-  const city = await db.City.findOne({ where: { name: 'Moscow' } })
+  const city = await db.City.findOne({ where: { name: 'moscow' } })
   await db.Weather.create({
     temp: json.main.temp,
     temp_feels_like: json.main.feels_like,
