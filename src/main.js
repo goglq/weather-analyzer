@@ -1,3 +1,4 @@
+//require('dotenv').config()
 const express = require('express')
 const db = require('./db')
 const cron = require('cron').CronJob
@@ -16,7 +17,7 @@ app.get('/history/:city', async (req, res) => {
       },
     })
 
-    if (city === undefined) {
+    if (city === null) {
       throw new Error('wrong city')
     }
 
@@ -45,7 +46,7 @@ app.get('/:city', async (req, res) => {
       },
     })
 
-    if (city === undefined) {
+    if (city === null) {
       throw new Error('wrong city')
     }
 
@@ -56,7 +57,7 @@ app.get('/:city', async (req, res) => {
       order: [['id', 'DESC']],
     })
 
-    if (weather === undefined) {
+    if (weather === null) {
       throw new Error('weather is undefined')
     }
 
