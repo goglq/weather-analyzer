@@ -65,6 +65,14 @@ const cleanWeatherJob = new cron(
 )
 cleanWeatherJob.start()
 
-db.sequelize.sync().then(() => {
-  app.listen(PORT, () => console.log('app is listening on port 3000'))
+db.sequelize.sync().then(async () => {
+  const cities = await db.City.findAll()
+
+  if (cities.length == 0) {
+    db.City.create({
+      name: 'moscow',
+    })
+  }
+
+  app.listen(PORT, () => console.log(`app is listening on port ${PORT}`))
 })
