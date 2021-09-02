@@ -24,11 +24,25 @@ async function getTemperature(db) {
   })
 }
 
+let cleanTimespanObj = {
+  time: 7,
+  measurement: 'days',
+}
+
+if (process.env.APP_MODE === 'development') {
+  cleanTimespanObj = {
+    time: 5,
+    measurement: 'minutes',
+  }
+}
+
 function cleanWeather(db) {
   db.Weather.destroy({
     where: {
       createdAt: {
-        [Op.lte]: moment().subtract(7, 'days').toDate(),
+        [Op.lte]: moment()
+          .subtract(cleanTimespanObj.time, cleanTimespanObj.measurement)
+          .toDate(),
       },
     },
   })

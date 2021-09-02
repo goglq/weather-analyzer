@@ -17,8 +17,7 @@ app.get('/weather/history/:city', (req, res) => controller.getHistory(req, res))
 
 app.get('/weather/:city', (req, res) => controller.getCity(req, res))
 
-jobs.addTemperatureJob.start()
-jobs.cleanWeatherJob.start()
+jobs.startJobs(db)
 
 db.sequelize.sync().then(async () => {
   const cities = await db.City.findAll()
