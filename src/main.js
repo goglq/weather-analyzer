@@ -9,11 +9,11 @@ const PORT = process.env.PORT
 const app = express()
 app.use(express.json())
 
-app.get('/history/:city', async (req, res) => {
+app.get('weather/history/:city', async (req, res) => {
   try {
     const city = await db.City.findOne({
       where: {
-        name: req.params['city'],
+        name: req.params['city'].toLowerCase(),
       },
     })
 
@@ -38,7 +38,7 @@ app.get('/history/:city', async (req, res) => {
   }
 })
 
-app.get('/:city', async (req, res) => {
+app.get('weather/:city', async (req, res) => {
   try {
     const city = await db.City.findOne({
       where: {
