@@ -1,4 +1,7 @@
-//require('dotenv').config()
+if (process.env.APP_MODE === 'development') {
+  require('dotenv').config()
+}
+
 const express = require('express')
 const db = require('./db')
 const cron = require('cron').CronJob
@@ -34,6 +37,7 @@ app.get('/weather/history/:city', async (req, res) => {
 
     res.send(weathers)
   } catch (err) {
+    console.error(err)
     res.status(404).send({ message: 'error' })
   }
 })
@@ -63,12 +67,15 @@ app.get('/weather/:city', async (req, res) => {
 
     res.send(weather)
   } catch (err) {
+    console.error(err)
     res.status(404).send({ message: 'error' })
   }
 })
 
+const ADD_TEMP_CRON = process.env.ADD_TEMP_CRON
+
 const addTemperatureJob = new cron(
-  '0 */4 * * *',
+  ADD_TEMP_CRON,
   () => {
     services.getTemperature(db)
   },
@@ -78,8 +85,10 @@ const addTemperatureJob = new cron(
 )
 addTemperatureJob.start()
 
+const CLEAN_WEATHER_CRON = process.env.CLEAN_WEATHER_CRON
+
 const cleanWeatherJob = new cron(
-  '0 0 */7 * *',
+  CLEAN_WEATHER_CRON,
   () => {
     services.cleanWeather(db)
   },
@@ -92,7 +101,7 @@ cleanWeatherJob.start()
 db.sequelize.sync().then(async () => {
   const cities = await db.City.findAll()
 
-  if (cities.length == 0) {
+  if (cities.length === 0) {
     db.City.create({
       name: 'moscow',
     })

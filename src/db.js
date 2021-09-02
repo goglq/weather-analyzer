@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 const CONNECTION_STR = process.env.DATABASE_URL
 
-const sequelize = new Sequelize(CONNECTION_STR, {
+const opt = {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
@@ -11,7 +11,15 @@ const sequelize = new Sequelize(CONNECTION_STR, {
       rejectUnauthorized: false,
     },
   },
-})
+}
+
+let sequelize
+
+if (process.env.APP_MODE === 'development') {
+  sequelize = new Sequelize(CONNECTION_STR)
+} else {
+  sequelize = new Sequelize(CONNECTION_STR, opt)
+}
 
 const City = sequelize.define('cities', {
   name: Sequelize.STRING,

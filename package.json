@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/main.js",
-    "dev": "nodemon src/main.js"
+    "dev": "cross-env APP_MODE=development nodemon src/main.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "timespan": "^2.3.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.12"
   }
