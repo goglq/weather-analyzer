@@ -16,6 +16,8 @@ function startJobs(db) {
     CRON_TIMEZONE
   )
 
+  cleanWeatherJob.start()
+
   const addTemperatureJob = new cron(
     ADD_TEMP_CRON,
     () => {
@@ -25,6 +27,8 @@ function startJobs(db) {
     true,
     CRON_TIMEZONE
   )
+
+  addTemperatureJob.start()
 
   return {
     cleanWeatherJob,
