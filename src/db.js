@@ -17,25 +17,72 @@ let sequelize
 
 if (process.env.APP_MODE === 'development') {
   sequelize = new Sequelize(CONNECTION_STR)
+  console.log('development')
 } else {
   sequelize = new Sequelize(CONNECTION_STR, opt)
 }
 
-const City = sequelize.define('cities', {
-  name: Sequelize.STRING,
-})
+console.log(CONNECTION_STR)
 
-const Weather = sequelize.define('weathers', {
-  temp: Sequelize.FLOAT,
-  temp_feels_like: Sequelize.FLOAT,
-  temp_min: Sequelize.FLOAT,
-  temp_max: Sequelize.FLOAT,
-  pressure: Sequelize.FLOAT,
-  humidity: Sequelize.FLOAT,
-  wind_speed: Sequelize.FLOAT,
-  wind_deg: Sequelize.FLOAT,
-  wind_gust: Sequelize.FLOAT,
-})
+const City = sequelize.define(
+  'cities',
+  {
+    name: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
+    alter: true,
+  }
+)
+
+const Weather = sequelize.define(
+  'weathers',
+  {
+    temp: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+    temp_feels_like: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+    temp_min: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+    temp_max: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+    pressure: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+    humidity: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+    wind_speed: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+    wind_deg: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+    wind_gust: {
+      type: Sequelize.DataTypes.FLOAT,
+      allowNull: true,
+    },
+  },
+  {
+    timestamps: true,
+    alter: true,
+  }
+)
 
 City.hasMany(Weather)
 Weather.belongsTo(City)
