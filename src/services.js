@@ -25,9 +25,6 @@ async function getTemperature(db) {
       wind_deg: json.wind.deg,
       wind_gust: json.wind.gust,
       cityId: city.id,
-      createdAt: new Date(Date.now()).toLocaleString('en-UK', {
-        timeZone: 'Europe/Moscow',
-      }),
     })
   }
 }
